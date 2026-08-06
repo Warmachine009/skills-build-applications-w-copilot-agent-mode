@@ -1,15 +1,13 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import apiRouter from './routes/api';
 
 const app = express();
 const port = process.env.PORT || 8000;
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/octofit_db';
 
 app.use(express.json());
-
-app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', message: 'OctoFit Tracker API is running' });
-});
+app.use('/api', apiRouter);
 
 async function startServer() {
   try {
