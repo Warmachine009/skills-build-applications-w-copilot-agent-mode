@@ -1,6 +1,11 @@
 import './App.css'
 
 function App() {
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+  const apiBaseUrl = codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev`
+    : 'http://localhost:8000';
+
   return (
     <main className="container py-5">
       <div className="row justify-content-center">
@@ -13,7 +18,7 @@ function App() {
                 and climbing the leaderboard.
               </p>
               <div className="d-flex gap-3">
-                <a className="btn btn-primary" href="http://localhost:8000/api/health">
+                <a className="btn btn-primary" href={`${apiBaseUrl}/api/health`}>
                   Check API Health
                 </a>
                 <a className="btn btn-outline-secondary" href="https://vite.dev/" target="_blank">
