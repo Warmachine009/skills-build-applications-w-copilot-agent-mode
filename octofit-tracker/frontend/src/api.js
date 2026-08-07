@@ -1,23 +1,13 @@
 const getApiBaseUrl = () => {
+  const rawCodespaceName = import.meta.env.VITE_CODESPACE_NAME;
   const codespaceName =
-    typeof import.meta.env.VITE_CODESPACE_NAME === 'string'
-      ? import.meta.env.VITE_CODESPACE_NAME.trim()
+    typeof rawCodespaceName === 'string' && rawCodespaceName.trim()
+      ? rawCodespaceName.trim()
       : '';
 
-  if (codespaceName) {
-    return `https://${codespaceName}-8000.app.github.dev`;
-  }
-
-  if (typeof window !== 'undefined') {
-    const host = window.location.hostname;
-    const codespacesMatch = host.match(/^([^.]+)-5173\.app\.github\.dev$/);
-
-    if (codespacesMatch) {
-      return `https://${codespacesMatch[1]}-8000.app.github.dev`;
-    }
-  }
-
-  return 'http://localhost:8000';
+  return codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev`
+    : 'http://localhost:8000';
 };
 
 const normalizeCollection = (payload) => {

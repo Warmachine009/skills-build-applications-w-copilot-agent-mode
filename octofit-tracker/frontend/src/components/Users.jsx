@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
 
 const getApiBaseUrl = () => {
-  const codespaceName =
-    typeof import.meta.env.VITE_CODESPACE_NAME === 'string'
-      ? import.meta.env.VITE_CODESPACE_NAME.trim()
-      : '';
-
-  return codespaceName
-    ? `https://${codespaceName}-8000.app.github.dev`
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+  return typeof codespaceName === 'string' && codespaceName.trim()
+    ? `https://${codespaceName.trim()}-8000.app.github.dev`
     : 'http://localhost:8000';
 };
 
