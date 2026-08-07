@@ -1,5 +1,44 @@
 import { useEffect, useState } from 'react';
-import { fetchCollection } from '../api';
+
+const getApiBaseUrl = () => {
+  const codespaceName =
+    typeof import.meta.env.VITE_CODESPACE_NAME === 'string'
+      ? import.meta.env.VITE_CODESPACE_NAME.trim()
+      : '';
+
+  return codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev`
+    : 'http://localhost:8000';
+};
+
+const normalizeCollection = (payload) => {
+  if (Array.isArray(payload)) {
+    return payload;
+  }
+
+  if (payload && typeof payload === 'object') {
+    const candidateKeys = ['results', 'items', 'data', 'teams'];
+
+    for (const key of candidateKeys) {
+      if (Array.isArray(payload[key])) {
+        return payload[key];
+      }
+    }
+  }
+
+  return [];
+};
+
+const fetchCollection = async (endpoint) => {
+  const response = await fetch(`${getApiBaseUrl()}/api/${endpoint}/`);
+
+  if (!response.ok) {
+    throw new Error(`Unable to load ${endpoint}`);
+  }
+
+  const payload = await response.json();
+  return normalizeCollection(payload);
+};
 
 function Teams() {
   const [teams, setTeams] = useState([]);

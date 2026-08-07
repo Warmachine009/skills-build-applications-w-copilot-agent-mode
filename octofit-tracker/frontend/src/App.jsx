@@ -5,10 +5,12 @@ import Leaderboard from './components/Leaderboard';
 import Teams from './components/Teams';
 import Users from './components/Users';
 import Workouts from './components/Workouts';
-import { getApiBaseUrl } from './api';
 
 function App() {
-  const apiBaseUrl = getApiBaseUrl();
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+  const apiBaseUrl = codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev`
+    : 'http://localhost:8000';
 
   return (
     <main className="container py-5">
@@ -26,7 +28,7 @@ function App() {
                 <br />
                 <small>
                   Define VITE_CODESPACE_NAME in .env.local to use Codespaces URLs such as
-                  https://your-space-8000.app.github.dev/api/users.
+                  https://your-space-8000.app.github.dev/api/users/.
                 </small>
               </div>
               <nav className="nav nav-pills flex-wrap gap-2 mb-4">
