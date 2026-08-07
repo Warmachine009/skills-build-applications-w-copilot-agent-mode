@@ -28,10 +28,11 @@ const normalizeCollection = (payload) => {
 };
 
 const fetchCollection = async (endpoint) => {
-  const response = await fetch(`${getApiBaseUrl()}/api/${endpoint}`);
+  const url = `${getApiBaseUrl()}/api/${endpoint}/`;
+  const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error(`Unable to load ${endpoint}`);
+    throw new Error(`Unable to load ${url}`);
   }
 
   const payload = await response.json();
